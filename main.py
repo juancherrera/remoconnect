@@ -1,5 +1,35 @@
 # main.py
 
+import sys
+import subprocess
+
+REQUIRED_PACKAGES = ['PyQt5==5.15.6', 'paramiko==2.11.0', 'pywinrm==0.4.2']
+
+def install_missing_packages(missing_packages):
+    try:
+        print("Installing required packages...")
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install'] + missing_packages)
+        print("Installation complete. Please restart the application.")
+        sys.exit(0)
+    except Exception as e:
+        print(f"Failed to install packages: {e}")
+        sys.exit(1)
+
+def check_and_install_packages():
+    missing_packages = []
+    for package in REQUIRED_PACKAGES:
+        package_name = package.split('==')[0]
+        try:
+            __import__(package_name)
+        except ImportError:
+            missing_packages.append(package)
+    if missing_packages:
+        print(f"The following packages are missing: {', '.join(missing_packages)}")
+        install_missing_packages(missing_packages)
+
+# Check and install packages before importing other modules
+check_and_install_packages()
+
 from PyQt5.QtWidgets import QApplication
 from gui.main_window import MainWindow
 from gui.license_dialog import LicenseDialog
