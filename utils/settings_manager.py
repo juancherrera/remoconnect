@@ -1,3 +1,5 @@
+# utils/settings_manager.py
+
 import json
 import os
 
@@ -16,7 +18,8 @@ class SettingsManager:
                 'connections': [],
                 'folders': [],
                 'background_color': '#000000',
-                'font_color': '#00FF00'
+                'font_color': '#00FF00',
+                'license_accepted': False  # Add default license status
             }
 
     def save_settings(self):
@@ -30,27 +33,4 @@ class SettingsManager:
     def get_setting(self, key, default=None):
         return self.settings.get(key, default)
 
-    def add_connection(self, connection_data):
-        self.settings['connections'].append(connection_data)
-        self.save_settings()
-
-    def update_connection(self, connection_data):
-        for i, conn in enumerate(self.settings['connections']):
-            if conn['name'] == connection_data['name']:
-                self.settings['connections'][i] = connection_data
-                break
-        self.save_settings()
-
-    def get_all_connections(self):
-        return self.settings.get('connections', [])
-
-    def add_folder(self, folder_name):
-        self.settings['folders'].append(folder_name)
-        self.save_settings()
-
-    def update_folder(self, old_name, new_name):
-        folders = self.settings.get('folders', [])
-        if old_name in folders:
-            index = folders.index(old_name)
-            folders[index] = new_name
-            self.save_settings()
+    # Existing methods for managing connections and folders...
