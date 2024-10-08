@@ -1,4 +1,4 @@
-Copyright (c) [Year] [Your Name]
+Copyright (c) 2024 Copres Inc.
 
 Permission is hereby granted, free of charge, to use this software for personal, educational, and non-commercial purposes only, subject to the following conditions:
 
