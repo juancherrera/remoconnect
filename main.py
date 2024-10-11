@@ -18,10 +18,10 @@ class ConnectionConfigDialog(QDialog):
         # Create form layout
         self.form_layout = QFormLayout()
 
-        self.name_input = QLineEdit(self)
-        self.host_input = QLineEdit(self)
-        self.username_input = QLineEdit(self)
-        self.password_input = QLineEdit(self)
+        self.name_input = QLineEdit()
+        self.host_input = QLineEdit()
+        self.username_input = QLineEdit()
+        self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.Password)
 
         self.form_layout.addRow("Name:", self.name_input)
