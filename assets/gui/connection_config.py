@@ -36,7 +36,7 @@ class ConnectionConfigDialog(QDialog):
         # Buttons
         self.save_button = QPushButton("Save")
         self.cancel_button = QPushButton("Cancel")
-        self.save_button.clicked.connect(self.accept)
+        self.save_button.clicked.connect(self.validate_and_accept)
         self.cancel_button.clicked.connect(self.reject)
 
         # Layout for buttons
@@ -53,10 +53,29 @@ class ConnectionConfigDialog(QDialog):
 
         self.setLayout(self.main_layout)
 
+    def validate_and_accept(self):
+        # Basic validation to ensure no fields are empty
+        if not self.name_input.text().strip():
+            self.show_error("Name cannot be empty.")
+            return
+        if not self.host_input.text().strip():
+            self.show_error("Host cannot be empty.")
+            return
+        if not self.username_input.text().strip():
+            self.show_error("Username cannot be empty.")
+            return
+        # Password can be optional, depending on your requirements
+
+        self.accept()
+
+    def show_error(self, message):
+        from PyQt5.QtWidgets import QMessageBox
+        QMessageBox.warning(self, "Input Error", message)
+
     def get_connection_data(self):
         return {
-            'name': self.name_input.text(),
-            'host': self.host_input.text(),
-            'username': self.username_input.text(),
-            'password': self.password_input.text()
+            'name': self.name_input.text().strip(),
+            'host': self.host_input.text().strip(),
+            'username': self.username_input.text().strip(),
+            'password': self.password_input.text()  # Consider handling passwords securely
         }
