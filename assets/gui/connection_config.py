@@ -1,7 +1,7 @@
 # gui/connection_config.py
 
 from PyQt5.QtWidgets import (
-    QDialog, QFormLayout, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout
+    QDialog, QFormLayout, QLineEdit, QPushButton, QHBoxLayout, QVBoxLayout, QMessageBox
 )
 from PyQt5.QtCore import Qt
 
@@ -69,7 +69,6 @@ class ConnectionConfigDialog(QDialog):
         self.accept()
 
     def show_error(self, message):
-        from PyQt5.QtWidgets import QMessageBox
         QMessageBox.warning(self, "Input Error", message)
 
     def get_connection_data(self):

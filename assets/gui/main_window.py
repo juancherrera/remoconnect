@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
     QMainWindow, QSplitter, QTreeWidget, QTreeWidgetItem,
     QTextEdit, QWidget, QHBoxLayout, QMenu, QAction, QInputDialog, QMessageBox
 )
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap, QPainter, QColor, QPen
 from PyQt5.QtCore import Qt
 from gui.connection_config import ConnectionConfigDialog
 
@@ -41,9 +41,45 @@ class MainWindow(QMainWindow):
         self.left_pane.customContextMenuRequested.connect(self.show_context_menu)
         self.left_pane.itemDoubleClicked.connect(self.open_connection)
 
-        # Load icons using QStyle
-        self.folder_icon = self.style().standardIcon(getattr(QStyle, 'SP_DirIcon', QStyle.SP_DirClosedIcon))
-        self.connection_icon = self.style().standardIcon(getattr(QStyle, 'SP_ComputerIcon', QStyle.SP_FileIcon))
+        # Load icons
+        self.folder_icon = self.style().standardIcon(getattr(self.style(), 'SP_DirIcon', 0))
+        self.connection_icon = self.create_gear_icon()
+
+    def create_gear_icon(self):
+        # Create a 16x16 pixmap
+        size = 16
+        pixmap = QPixmap(size, size)
+        pixmap.fill(Qt.transparent)
+
+        painter = QPainter(pixmap)
+        painter.setRenderHint(QPainter.Antialiasing)
+        pen = QPen(QColor('black'))
+        pen.setWidth(1)
+        painter.setPen(pen)
+        painter.setBrush(QColor('gray'))
+
+        # Draw a simple gear-like shape (circle with rectangles as teeth)
+        center = size / 2
+        radius = size * 0.3
+        num_teeth = 6
+        tooth_width = size * 0.05
+        tooth_length = size * 0.15
+
+        # Draw the central circle
+        painter.drawEllipse(int(center - radius), int(center - radius), int(radius * 2), int(radius * 2))
+
+        # Draw teeth
+        for i in range(num_teeth):
+            angle = (360 / num_teeth) * i
+            painter.save()
+            painter.translate(center, center)
+            painter.rotate(angle)
+            painter.drawRect(int(radius), -int(tooth_width / 2), int(tooth_length), int(tooth_width))
+            painter.restore()
+
+        painter.end()
+
+        return QIcon(pixmap)
 
     def show_context_menu(self, position):
         menu = QMenu()
@@ -136,5 +172,5 @@ class MainWindow(QMainWindow):
             # For demonstration, we'll simulate a successful connection
             self.right_pane.append(f"Connected successfully to {host}!\n")
         else:
-            # If it's a folder, you can toggle expansion
+            # If it's a folder, toggle expansion
             item.setExpanded(not item.isExpanded())
