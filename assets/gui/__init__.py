@@ -1,1 +1,3 @@
-# This file can be left empty or used to initialize connection components
+# gui/__init__.py
+
+# This file can be left empty or used to initialize the module.

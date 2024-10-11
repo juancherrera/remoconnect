@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
     QMainWindow, QSplitter, QListWidget, QTextEdit, QWidget, QHBoxLayout,
     QMenu, QAction, QInputDialog, QListWidgetItem
 )
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtCore import Qt
 from gui.connection_config import ConnectionConfigDialog
 
 class MainWindow(QMainWindow):
@@ -17,7 +17,8 @@ class MainWindow(QMainWindow):
         # Create central widget and layout
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-        layout = QHBoxLayout(central_widget)
+        layout = QHBoxLayout()
+        central_widget.setLayout(layout)
 
         # Create a splitter
         splitter = QSplitter(Qt.Horizontal)
@@ -85,7 +86,9 @@ class MainWindow(QMainWindow):
                 item.setText(updated_data['name'])
                 item.setData(Qt.UserRole, {'type': 'connection', 'data': updated_data})
         elif item_data['type'] == 'folder':
-            folder_name, ok = QInputDialog.getText(self, "Edit Folder", "Folder Name:", text=item.text())
+            folder_name, ok = QInputDialog.getText(
+                self, "Edit Folder", "Folder Name:", text=item.text()
+            )
             if ok and folder_name:
                 item.setText(folder_name)
 
@@ -94,7 +97,9 @@ class MainWindow(QMainWindow):
         if item_data['type'] == 'connection':
             connection_data = item_data['data']
             # Simulate connecting to the host
-            self.right_pane.append(f"Connecting to {connection_data['host']} as {connection_data['username']}...")
+            self.right_pane.append(
+                f"Connecting to {connection_data['host']} as {connection_data['username']}..."
+            )
             # Simulated successful connection
             self.right_pane.append("Connected successfully!\n")
         else:
