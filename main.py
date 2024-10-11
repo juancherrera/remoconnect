@@ -3,7 +3,7 @@
 import sys
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QSplitter, QTreeWidget, QTreeWidgetItem,
-    QTextEdit, QWidget, QHBoxLayout, QMenu, QAction, QInputDialog
+    QTextEdit, QWidget, QHBoxLayout, QMenu, QAction, QInputDialog, QStyle
 )
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
@@ -41,9 +41,9 @@ class MainWindow(QMainWindow):
         self.left_pane.customContextMenuRequested.connect(self.show_context_menu)
         self.left_pane.itemDoubleClicked.connect(self.open_connection)
 
-        # Load icons
-        self.folder_icon = QIcon.fromTheme("folder")  # Use a standard folder icon
-        self.connection_icon = QIcon.fromTheme("network-workgroup")  # Use a standard network icon
+        # Load standard icons provided by PyQt5
+        self.folder_icon = self.style().standardIcon(QStyle.SP_DirIcon)
+        self.connection_icon = self.style().standardIcon(QStyle.SP_FileDialogDetailedView)
 
     def show_context_menu(self, position):
         menu = QMenu()
@@ -92,6 +92,7 @@ class MainWindow(QMainWindow):
             item.setData(0, Qt.UserRole, 'folder')
             if parent_item:
                 parent_item.addChild(item)
+                parent_item.setExpanded(True)
             else:
                 self.left_pane.addTopLevelItem(item)
 
@@ -105,6 +106,7 @@ class MainWindow(QMainWindow):
             item.setIcon(0, self.connection_icon)
             item.setData(0, Qt.UserRole, 'connection')
             parent_item.addChild(item)
+            parent_item.setExpanded(True)
 
     def edit_folder(self, item):
         folder_name, ok = QInputDialog.getText(self, "Edit Folder", "Folder Name:", text=item.text(0))
