@@ -1,4 +1,5 @@
 # utils/settings_manager.py
+# must for testing
 
 import json
 import os
