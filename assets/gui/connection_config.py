@@ -39,12 +39,13 @@ class ConnectionConfigDialog(QDialog):
         self.save_button.clicked.connect(self.accept)
         self.cancel_button.clicked.connect(self.reject)
 
-        # Layout
+        # Layout for buttons
         self.button_layout = QHBoxLayout()
         self.button_layout.addStretch()
         self.button_layout.addWidget(self.save_button)
         self.button_layout.addWidget(self.cancel_button)
 
+        # Main layout
         self.main_layout = QVBoxLayout()
         self.main_layout.addLayout(self.form_layout)
         self.main_layout.addStretch()
