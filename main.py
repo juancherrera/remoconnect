@@ -1,20 +1,43 @@
 # main.py
 
 import sys
-import os
+from PyQt5.QtWidgets import (
+    QApplication, QMainWindow, QSplitter, QListWidget, QTextEdit, QWidget, QHBoxLayout
+)
+from PyQt5.QtCore import Qt
 
-# Add the directory containing 'gui' to sys.path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, current_dir)
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-from PyQt5.QtWidgets import QApplication
-from gui.main_window import MainWindow
+        self.setWindowTitle("Connection Manager")
+        self.setGeometry(100, 100, 800, 600)
+
+        # Central widget and layout
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        layout = QHBoxLayout(central_widget)
+
+        # Splitter to divide left and right panes
+        splitter = QSplitter(Qt.Horizontal)
+
+        # Left pane: list widget (for connections and folders)
+        self.left_pane = QListWidget()
+        splitter.addWidget(self.left_pane)
+
+        # Right pane: text edit (for displaying connection outputs)
+        self.right_pane = QTextEdit()
+        self.right_pane.setReadOnly(True)
+        splitter.addWidget(self.right_pane)
+
+        # Add splitter to the main layout
+        layout.addWidget(splitter)
 
 def main():
     app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
+    main_window = MainWindow()
+    main_window.show()
     sys.exit(app.exec_())
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
