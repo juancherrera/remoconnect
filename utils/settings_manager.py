@@ -14,13 +14,7 @@ class SettingsManager:
             with open(self.settings_file, 'r') as f:
                 self.settings = json.load(f)
         else:
-            self.settings = {
-                'connections': [],
-                'folders': [],
-                'background_color': '#000000',
-                'font_color': '#00FF00',
-                'license_accepted': False  # Add default license status
-            }
+            self.settings = {}
 
     def save_settings(self):
         with open(self.settings_file, 'w') as f:
@@ -32,5 +26,3 @@ class SettingsManager:
 
     def get_setting(self, key, default=None):
         return self.settings.get(key, default)
-
-    # Existing methods for managing connections and folders...

@@ -1,9 +1,6 @@
 # gui/license_dialog.py
 
-from PyQt5.QtWidgets import (
-    QDialog, QVBoxLayout, QLabel, QTextEdit, QCheckBox, QPushButton, QMessageBox
-)
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QCheckBox, QPushButton, QMessageBox
 
 class LicenseDialog(QDialog):
     def __init__(self, parent=None):
@@ -41,7 +38,7 @@ class LicenseDialog(QDialog):
         self.layout.addWidget(self.reject_button)
 
     def toggle_accept_button(self, state):
-        self.accept_button.setEnabled(state == Qt.Checked)
+        self.accept_button.setEnabled(state == 2)  # 2 means Checked
 
     def accept(self):
         if self.accept_checkbox.isChecked():
